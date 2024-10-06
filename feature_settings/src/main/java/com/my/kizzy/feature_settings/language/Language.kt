@@ -7,7 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.my.kizzy.resources.R
-import com.my.kizzy.preference.*
+import com.my.kizzy.preference.Prefs
 import com.my.kizzy.preference.Prefs.LANGUAGE
 import com.my.kizzy.ui.components.BackButton
 import com.my.kizzy.ui.components.preference.PreferenceSingleChoiceItem
@@ -25,6 +25,7 @@ fun Language(
         Prefs[LANGUAGE] = locale
         updateLocaleLanguage(getLanguageConfig())
     }
+
     Scaffold(
         topBar = {
             LargeTopAppBar(
@@ -49,17 +50,16 @@ fun Language(
                     selected = locale == SYSTEM_DEFAULT
                 ) { changeLanguage(SYSTEM_DEFAULT) }
             }
-            for (language in languages) {
+            languages.forEach { (key, _) ->
                 item {
                     PreferenceSingleChoiceItem(
-                        text = getLanguageDesc(language.key),
-                        selected = locale == language.key
+                        text = getLanguageDesc(key),
+                        selected = locale == key
                     ) {
-                        changeLanguage(language.key)
+                        changeLanguage(key)
                     }
                 }
             }
         }
     }
 }
-
